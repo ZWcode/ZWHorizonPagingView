@@ -49,7 +49,8 @@
     
     ZWHorizonPagingView *pagingView = [ZWHorizonPagingView pagingWithTopView:header segmentHeight:40.f segmentBtnTitles:@[@"btn0",@"btn1",@"btn2",@"btn3"] contentViews:contentViews];
 
-    pagingView.segmentView.backgroundColor = [UIColor orangeColor];
+//    pagingView.segmentView.backgroundColor = [UIColor orangeColor];
+    
 //    [self.view addSubview:contentView0];
     UIViewController *vc = [UIViewController new];
     [vc.view addSubview:pagingView];

@@ -58,18 +58,17 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
             }
         }
     }];
-    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"%@",NSStringFromCGPoint(scrollView.contentOffset));
+//    NSLog(@"%@",NSStringFromCGPoint(scrollView.contentOffset));
     CGFloat LineTotalLength = ScreenWidth-15.f;
     CGFloat width = LineTotalLength/self.segmentBtnTitles.count;
     CGFloat scrollMoveLength = scrollView.contentOffset.x;
     CGFloat scrollTotalLength = ScreenWidth * self.segmentBtnTitles.count;
     CGFloat LineMoveLength = scrollMoveLength * LineTotalLength / scrollTotalLength;
     CGFloat x = LineMoveLength+15.f;
-//    CGRect rect = self.underLine.frame;
+
     CGRect rect = CGRectMake(x, self.segmentHeight-1, width-15, 1);
     self.underLine.frame = rect;
 }
@@ -107,9 +106,14 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
 #pragma mark - setter
 - (void)setSegmentBtnTitles:(NSArray *)segmentBtnTitles{
     _segmentBtnTitles = segmentBtnTitles;
-    __block x = 0;
+    __block CGFloat x = 0;
+    CGFloat width = ScreenWidth/segmentBtnTitles.count;
     [segmentBtnTitles enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        UIButton *btn = [UIButton new];
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(x, 0, width, self.segmentHeight)];
+        [btn setTitle:segmentBtnTitles[idx] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [self.segmentView addSubview:btn];
+        x+= width;
     }];
 }
 
