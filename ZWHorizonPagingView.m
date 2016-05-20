@@ -50,6 +50,7 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
     }];
     btn.selected = !btn.selected;
     [self.bgScrollView setContentOffset:CGPointMake(320.f*(btn.tag-1), -64.f) animated:YES];
+    [self scrollViewWillBeginDragging:self.bgScrollView];
 }
 
 #pragma mark - scroll view delegate
@@ -171,6 +172,14 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
 - (UIView *)segmentView{
     if (!_segmentView) {
         _segmentView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.topView.frame), ScreenWidth, self.segmentHeight)];
+        //添加分割线
+        UIView *splitLine = [[UIView alloc] initWithFrame:CGRectMake(15, -0.3, ScreenWidth-30, 0.3)];
+        splitLine.backgroundColor = [UIColor lightGrayColor];
+        [_segmentView addSubview:splitLine];
+        UIView *splitLine2 = [[UIView alloc] initWithFrame:CGRectMake(15, self.segmentHeight-0.3, ScreenWidth-30, 0.3)];
+        splitLine2.backgroundColor = [UIColor lightGrayColor];
+        [_segmentView addSubview:splitLine2];
+
         [self addSubview:_segmentView];
     }
     return _segmentView;
