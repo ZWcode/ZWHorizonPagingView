@@ -12,6 +12,9 @@
 
 @interface ZWHorizonPagingView : UIView
 
+@property (nonatomic, strong) UIView        *segmentView;/**<选择视图*/
+@property (nonatomic, strong) UIView        *underLine;
+
 + (instancetype)pagingWithTopView:(UIView *)topView segmentHeight:(CGFloat)segmentHeight segmentBtnTitles:(NSArray *)segmentBtnTitles contentViews:(NSArray *)contentViews;
 
 @end

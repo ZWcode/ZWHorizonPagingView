@@ -26,7 +26,7 @@
     NSLog(@"clickBtn");
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 64.f, ScreenWidth, 200)];
     header.backgroundColor = [UIColor blueColor];
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 50, 100, 25)];
     [btn addTarget:self action:@selector(clickBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -48,6 +48,8 @@
     [contentViews addObject:contentView3];
     
     ZWHorizonPagingView *pagingView = [ZWHorizonPagingView pagingWithTopView:header segmentHeight:40.f segmentBtnTitles:@[@"btn0",@"btn1",@"btn2",@"btn3"] contentViews:contentViews];
+
+    pagingView.segmentView.backgroundColor = [UIColor orangeColor];
 //    [self.view addSubview:contentView0];
     UIViewController *vc = [UIViewController new];
     [vc.view addSubview:pagingView];
