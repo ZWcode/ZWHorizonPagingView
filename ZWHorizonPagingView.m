@@ -23,6 +23,8 @@
 @property (nonatomic, strong) NSArray                   *segmentBtns;/**<按钮数组*/
 @property (nonatomic, strong) NSArray                   *contentViews;/**<垂直方向滚动视图*/
 
+@property (nonatomic, strong) UIView                    *splitLine0;/**<segmentView里的分割线*/
+@property (nonatomic, strong) UIView                    *splitLine1;/**<segmentView里的分割线*/
 @end
 
 @implementation ZWHorizonPagingView
@@ -155,6 +157,12 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
     }];
 }
 
+- (void)setSplitLineColor:(UIColor *)splitLineColor{
+    _splitLineColor = splitLineColor;
+    _splitLine0.backgroundColor = splitLineColor;
+    _splitLine1.backgroundColor = splitLineColor;
+}
+
 #pragma mark - getter
 - (UIScrollView *)bgScrollView{
     if (!_bgScrollView) {
@@ -172,13 +180,14 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
 - (UIView *)segmentView{
     if (!_segmentView) {
         _segmentView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.topView.frame), ScreenWidth, self.segmentHeight)];
+        _segmentView.backgroundColor = [UIColor whiteColor];
         //添加分割线
-        UIView *splitLine = [[UIView alloc] initWithFrame:CGRectMake(15, -0.3, ScreenWidth-30, 0.3)];
-        splitLine.backgroundColor = [UIColor lightGrayColor];
-        [_segmentView addSubview:splitLine];
-        UIView *splitLine2 = [[UIView alloc] initWithFrame:CGRectMake(15, self.segmentHeight-0.3, ScreenWidth-30, 0.3)];
-        splitLine2.backgroundColor = [UIColor lightGrayColor];
-        [_segmentView addSubview:splitLine2];
+        _splitLine0 = [[UIView alloc] initWithFrame:CGRectMake(15, -0.3, ScreenWidth-30, 0.3)];
+        _splitLine0.backgroundColor = [UIColor lightGrayColor];
+        [_segmentView addSubview:_splitLine0];
+        _splitLine1 = [[UIView alloc] initWithFrame:CGRectMake(15, self.segmentHeight-0.3, ScreenWidth-30, 0.3)];
+        _splitLine1.backgroundColor = [UIColor lightGrayColor];
+        [_segmentView addSubview:_splitLine1];
 
         [self addSubview:_segmentView];
     }

@@ -27,7 +27,7 @@
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 64.f, ScreenWidth, 200)];
-//    header.backgroundColor = [UIColor blueColor];
+    header.backgroundColor = [UIColor whiteColor];
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 50, 100, 25)];
     [btn addTarget:self action:@selector(clickBtn) forControlEvents:UIControlEventTouchUpInside];
     btn.backgroundColor = [UIColor redColor];
@@ -38,8 +38,10 @@
 //        contentView0.contentInset = UIEdgeInsetsMake(50, 0, 0, 0);
     
     table1 *contentView1 = [[table1 alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
-    UITableView *contentView2 = [UITableView new];
-    contentView2.backgroundColor = [UIColor blueColor];
+    UIScrollView *contentView2 = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    contentView2.contentSize = CGSizeMake(0, ScreenHeight);
+    contentView2.backgroundColor = [UIColor greenColor];
+    [contentView2 addSubview:btn];
     UITableView *contentView3 = [UITableView new];
     contentView3.backgroundColor = [UIColor redColor];
     [contentViews addObject:contentView0];
@@ -61,7 +63,7 @@
     }
     ZWHorizonPagingView *pagingView = [ZWHorizonPagingView pagingWithTopView:header segmentHeight:40.f segmentBtnTitles:btnArr contentViews:contentViews];
 
-//    pagingView.segmentView.backgroundColor = [UIColor orangeColor];
+//    pagingView.splitLineColor = [UIColor orangeColor];
     
 //    [self.view addSubview:contentView0];
     UIViewController *vc = [UIViewController new];
