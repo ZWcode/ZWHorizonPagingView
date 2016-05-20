@@ -20,35 +20,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-}
-- (void)clickBtn{
-    NSLog(@"clickBtn");
-}
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    //header
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 64.f, ScreenWidth, 200)];
     header.backgroundColor = [UIColor whiteColor];
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 50, 100, 25)];
     [btn addTarget:self action:@selector(clickBtn) forControlEvents:UIControlEventTouchUpInside];
     btn.backgroundColor = [UIColor redColor];
     [header addSubview:btn];
-    NSMutableArray *contentViews = [NSMutableArray array];
-    table0 *contentView0 = [[table0 alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
-//    contentView0.backgroundColor = [UIColor redColor];
-//        contentView0.contentInset = UIEdgeInsetsMake(50, 0, 0, 0);
     
+    //contentViews
+    NSMutableArray *contentViews = [NSMutableArray array];
+    table0 *contentView0 = [table0 new];
     table1 *contentView1 = [[table1 alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
-    UIScrollView *contentView2 = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    contentView2.contentSize = CGSizeMake(0, ScreenHeight);
+    UIScrollView *contentView2 = [[UIScrollView alloc] init];
+    contentView2.contentSize = CGSizeMake(0, ScreenHeight-40-63);
     contentView2.backgroundColor = [UIColor greenColor];
-    [contentView2 addSubview:btn];
-    UITableView *contentView3 = [UITableView new];
-    contentView3.backgroundColor = [UIColor redColor];
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(10, 50, 100, 25)];
+    [btn2 addTarget:self action:@selector(clickBtn) forControlEvents:UIControlEventTouchUpInside];
+    btn2.backgroundColor = [UIColor redColor];
+    [contentView2 addSubview:btn2];
+    table0 *contentView3 = [table0 new];
     [contentViews addObject:contentView0];
     [contentViews addObject:contentView1];
     [contentViews addObject:contentView2];
     [contentViews addObject:contentView3];
     
+    //segmentBtns
     CGFloat x = 0;
     CGFloat width = ScreenWidth/4;
     NSMutableArray *btnArr = [NSMutableArray array];
@@ -61,13 +58,13 @@
         [btnArr addObject:btn];
         x+= width;
     }
-    ZWHorizonPagingView *pagingView = [ZWHorizonPagingView pagingWithTopView:header segmentHeight:40.f segmentBtnTitles:btnArr contentViews:contentViews];
-
-//    pagingView.splitLineColor = [UIColor orangeColor];
     
-//    [self.view addSubview:contentView0];
-    UIViewController *vc = [UIViewController new];
-    [vc.view addSubview:pagingView];
-    [self.navigationController pushViewController:vc animated:YES];
+    ZWHorizonPagingView *pagingView = [ZWHorizonPagingView pagingWithTopView:header segmentHeight:40.f segmentBtns:btnArr contentViews:contentViews];
+    [self.view addSubview:pagingView];
 }
+
+- (void)clickBtn{
+    NSLog(@"clickBtn");
+}
+
 @end

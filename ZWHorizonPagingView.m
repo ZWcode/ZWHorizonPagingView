@@ -30,7 +30,7 @@
 @implementation ZWHorizonPagingView
 
 static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<处理垂直方向contentViews的KVO参数*/
-+ (instancetype)pagingWithTopView:(UIView *)topView segmentHeight:(CGFloat)segmentHeight segmentBtnTitles:(NSArray *)segmentBtns contentViews:(NSArray *)contentViews{
++ (instancetype)pagingWithTopView:(UIView *)topView segmentHeight:(CGFloat)segmentHeight segmentBtns:(NSArray *)segmentBtns contentViews:(NSArray *)contentViews{
     
     ZWHorizonPagingView *pagingView     = [ZWHorizonPagingView new];
     pagingView.backgroundColor          = [UIColor whiteColor];

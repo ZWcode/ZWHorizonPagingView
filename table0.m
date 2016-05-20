@@ -9,9 +9,8 @@
 #import "table0.h"
 
 @implementation table0
-
-- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style{
-    if (self = [super initWithFrame:frame style:style]) {
+- (instancetype)init{
+    if (self = [super init]) {
         self.dataSource = self;
         self.delegate = self;
         
