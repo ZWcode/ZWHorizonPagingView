@@ -47,7 +47,19 @@
     [contentViews addObject:contentView2];
     [contentViews addObject:contentView3];
     
-    ZWHorizonPagingView *pagingView = [ZWHorizonPagingView pagingWithTopView:header segmentHeight:40.f segmentBtnTitles:@[@"btn0",@"btn1",@"btn2",@"btn3"] contentViews:contentViews];
+    CGFloat x = 0;
+    CGFloat width = ScreenWidth/4;
+    NSMutableArray *btnArr = [NSMutableArray array];
+    for (int i = 0; i<4; i++) {
+        
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(x, 0, width, 40.f)];
+        [btn setTitle:@"test" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+        [btnArr addObject:btn];
+        x+= width;
+    }
+    ZWHorizonPagingView *pagingView = [ZWHorizonPagingView pagingWithTopView:header segmentHeight:40.f segmentBtnTitles:btnArr contentViews:contentViews];
 
 //    pagingView.segmentView.backgroundColor = [UIColor orangeColor];
     

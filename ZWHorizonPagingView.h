@@ -16,6 +16,6 @@
 @property (nonatomic, strong) UIView        *underLine;
 
 
-+ (instancetype)pagingWithTopView:(UIView *)topView segmentHeight:(CGFloat)segmentHeight segmentBtnTitles:(NSArray *)segmentBtnTitles contentViews:(NSArray *)contentViews;
++ (instancetype)pagingWithTopView:(UIView *)topView segmentHeight:(CGFloat)segmentHeight segmentBtnTitles:(NSArray *)segmentBtns contentViews:(NSArray *)contentViews;
 
 @end

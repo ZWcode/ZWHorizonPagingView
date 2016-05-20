@@ -20,7 +20,7 @@
 @property (nonatomic, assign) CGFloat                   scrollY;/** 记录scrollView上次偏移Y的距离 */
 @property (nonatomic, strong) UIScrollView              *showingScrollView;/**<记录当前滚动视图*/
 
-@property (nonatomic, strong) NSArray                   *segmentBtnTitles;/**<按钮文字*/
+@property (nonatomic, strong) NSArray                   *segmentBtns;/**<按钮数组*/
 @property (nonatomic, strong) NSArray                   *contentViews;/**<垂直方向滚动视图*/
 
 @end
@@ -28,7 +28,7 @@
 @implementation ZWHorizonPagingView
 
 static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<处理垂直方向contentViews的KVO参数*/
-+ (instancetype)pagingWithTopView:(UIView *)topView segmentHeight:(CGFloat)segmentHeight segmentBtnTitles:(NSArray *)segmentBtnTitles contentViews:(NSArray *)contentViews{
++ (instancetype)pagingWithTopView:(UIView *)topView segmentHeight:(CGFloat)segmentHeight segmentBtnTitles:(NSArray *)segmentBtns contentViews:(NSArray *)contentViews{
     
     ZWHorizonPagingView *pagingView     = [ZWHorizonPagingView new];
     pagingView.backgroundColor          = [UIColor whiteColor];
@@ -37,9 +37,19 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
     pagingView.topViewHeight            = topView.frame.size.height;
     pagingView.contentViews             = contentViews;
     pagingView.topView                  = topView;
-    pagingView.segmentBtnTitles         = segmentBtnTitles;
+    pagingView.segmentBtns              = segmentBtns;
     
     return pagingView;
+}
+
+- (void)clickSegmentBtn:(UIButton *)btn{
+
+    [self.segmentBtns enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIButton *btn = obj;
+        [btn setSelected:NO];
+    }];
+    btn.selected = !btn.selected;
+    [self.bgScrollView setContentOffset:CGPointMake(320.f*(btn.tag-1), -64.f) animated:YES];
 }
 
 #pragma mark - scroll view delegate
@@ -63,14 +73,20 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 //    NSLog(@"%@",NSStringFromCGPoint(scrollView.contentOffset));
     CGFloat LineTotalLength = ScreenWidth-15.f;
-    CGFloat width = LineTotalLength/self.segmentBtnTitles.count;
+    CGFloat width = LineTotalLength/self.segmentBtns.count;
     CGFloat scrollMoveLength = scrollView.contentOffset.x;
-    CGFloat scrollTotalLength = ScreenWidth * self.segmentBtnTitles.count;
+    CGFloat scrollTotalLength = ScreenWidth * self.segmentBtns.count;
     CGFloat LineMoveLength = scrollMoveLength * LineTotalLength / scrollTotalLength;
     CGFloat x = LineMoveLength+15.f;
 
     CGRect rect = CGRectMake(x, self.segmentHeight-1, width-15, 1);
     self.underLine.frame = rect;
+    
+    //fmodf取余数
+    if (fmodf(scrollView.contentOffset.x, 320.f)==0.f) {
+        UIButton *btn = [self viewWithTag:(scrollView.contentOffset.x/320 +1)];
+        [self clickSegmentBtn:btn];
+    }
 }
 
 #pragma mark - Observer
@@ -84,7 +100,7 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
         CGFloat offsetY = self.showingScrollView.contentOffset.y+self.topViewHeight;
         CGFloat segOffsetY = offsetY - self.scrollY;
         self.scrollY = offsetY;
-        NSLog(@"offsetY:%f,segOffsetY:%f",offsetY,segOffsetY);
+//        NSLog(@"offsetY:%f,segOffsetY:%f",offsetY,segOffsetY);
         //topView联动
         CGRect headRect = self.topView.frame;
         headRect.origin.y -= segOffsetY;
@@ -104,16 +120,16 @@ static void *ZWVerticallyScrollViewContext = &ZWVerticallyScrollViewContext;/**<
 }
 
 #pragma mark - setter
-- (void)setSegmentBtnTitles:(NSArray *)segmentBtnTitles{
-    _segmentBtnTitles = segmentBtnTitles;
-    __block CGFloat x = 0;
-    CGFloat width = ScreenWidth/segmentBtnTitles.count;
-    [segmentBtnTitles enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(x, 0, width, self.segmentHeight)];
-        [btn setTitle:segmentBtnTitles[idx] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+- (void)setSegmentBtns:(NSArray *)segmentBtns{
+    _segmentBtns = segmentBtns;
+    [segmentBtns enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIButton *btn = obj;
+        btn.tag = idx+1;
+        [btn addTarget:self action:@selector(clickSegmentBtn:) forControlEvents:UIControlEventTouchUpInside];
         [self.segmentView addSubview:btn];
-        x+= width;
+        if (idx == 0) {
+            [btn setSelected:YES];
+        }
     }];
 }
 
